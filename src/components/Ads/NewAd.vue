@@ -70,9 +70,10 @@ export default {
         const ad = {
           title: this.title,
           discription: this.discription,
-          promo: this.promo
+          promo: this.promo,
+          src: "https://cdn.shazoo.ru/309070_dYM2kid3qv_19_12.jpg"
         };
-        console.log(ad);
+        this.$store.dispatch("createAd", ad);
       }
     }
   }

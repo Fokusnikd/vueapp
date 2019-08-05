@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <v-layout row w>
+      <v-layout wrap>
         <v-flex xs12>
           <v-carousel>
             <v-carousel-item v-for="(ad,i) in promoAds" :key="i" :src="ad.src">
@@ -18,18 +18,19 @@
         <v-flex xs6 lg3 v-for="(ad,i) in ads" :key="i">
           <v-card class="mx-auto">
             <v-img class="white--text" height="200px" :src="ad.src">
-              <v-card-title class="align-end fill-height">Top 10 Australian beaches</v-card-title>
+              <v-card-title class="align-end fill-height">{{ad.title}}</v-card-title>
             </v-img>
-
-            <v-card-text>
-              <span>{{ad.title}}</span>
-              <br />
-              <span class="text--primary">
-                <span>{{ad.discription}}</span>
-                <br />
-                <span>Whitsunday Island, Whitsunday Islands</span>
-              </span>
-            </v-card-text>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-card-text>
+                  <span>{{ad.title}}</span>
+                  <br />
+                  <span class="text--primary">
+                    <span>{{ad.discription}}</span>
+                  </span>
+                </v-card-text>
+              </v-flex>
+            </v-layout>
 
             <v-card-actions>
               <v-spacer></v-spacer>

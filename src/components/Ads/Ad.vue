@@ -3,12 +3,12 @@
     <v-layout wrap>
       <v-flex xs12>
         <v-card>
-          <v-img class="white--text" src="https://cdn.vuetifyjs.com/images/carousel/bird.jpg">
-            <v-card-title class="align-end fill-height">Top 10 Australian beaches</v-card-title>
+          <v-img class="white--text" :src="ad.src">
+            <v-card-title class="align-end fill-height">{{ad.title}}</v-card-title>
           </v-img>
           <v-card-text>
-            <h1 class="text--primary">Lorem</h1>
-            <p>ipsum dolor sit amet consectetur adipisicing elit. Libero mollitia nesciunt in consequuntur debitis enim et dolor dolorum voluptates nostrum non eligendi vero aperiam impedit autem delectus veritatis, quisquam repudiandae.</p>
+            <h1 class="text--primary">{{ad.title}}</h1>
+            <p>{{ad.discription}}</p>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -22,8 +22,12 @@
 </template>
 <script>
 export default {
-  data() {
-    return {};
+  props: ["id"],
+  computed: {
+    ad() {
+      const id = this.id;
+      return this.$store.getters.adById(id);
+    }
   }
 };
 </script>
