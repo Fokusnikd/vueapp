@@ -32,6 +32,18 @@
       <v-content>
         <router-view></router-view>
       </v-content>
+      <template v-if="error">
+        <v-snackbar
+          color="color"
+          @input="closeError"
+          :value="true"
+          :multi-line="true"
+          :timeout="5000"
+        >
+          {{error}}
+          <v-btn color="error" @click="closeError">Close</v-btn>
+        </v-snackbar>
+      </template>
     </v-app>
   </div>
 </template>
@@ -40,15 +52,37 @@
 export default {
   data() {
     return {
-      drawer: false,
-      links: [
-        { title: "Login", icon: "mdi-star", url: "/login" },
-        { title: "Registration", icon: "mdi-lock", url: "/registration" },
-        { title: "Orders", icon: "mdi-key", url: "/orders" },
-        { title: "New", icon: "mdi-new", url: "/new" },
-        { title: "list", icon: "mdi-list", url: "/list" }
-      ]
+      drawer: false
     };
+  },
+  methods: {
+    closeError() {
+      this.$store.dispatch("clearError");
+    }
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    },
+    isUserLoggedIn() {
+      return this.$store.getters.isUserLoggedIn;
+    },
+    links() {
+      if (this.isUserLoggedIn) {
+        return [
+          { title: "Orders", icon: "mdi-key", url: "/orders" },
+          { title: "New", icon: "mdi-new", url: "/new" },
+          { title: "list", icon: "mdi-list", url: "/list" }
+        ];
+      }
+
+      {
+        return [
+          { title: "Login", icon: "mdi-star", url: "/login" },
+          { title: "Registration", icon: "mdi-lock", url: "/registration" }
+        ];
+      }
+    }
   }
 };
 </script>

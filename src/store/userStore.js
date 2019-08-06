@@ -30,14 +30,38 @@ export default {
       } catch (error) {
         commit('setLoading', false);
         commit('setError', error.message);
-        throw error
+        throw error;
       }
 
+    },
+    async loginUser({
+      commit
+    }, {
+      email,
+      password
+    }) {
+      commit('clearError');
+      commit('setLoading', true);
+      try {
+        const user = await fb.auth().signInWithEmailAndPassword(email, password)
+
+        commit('setUser', new User(user.uid));
+        commit('setLoading', false);
+      } catch (error) {
+        commit('setLoading', false);
+        commit('setError', error.message);
+        throw error;
+      }
     }
+
   },
   getters: {
     user(state) {
       return state.user;
+    },
+    isUserLoggedIn(state) {
+      return state.user !== null;
+
     }
   }
 }
