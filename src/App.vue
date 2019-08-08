@@ -12,6 +12,16 @@
               <v-list-item-title>{{link.title}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+          <v-list-item v-if="isUserLoggedIn" @click="onLogout">
+            <v-list-item-icon>
+              <v-icon color="pink">mdi-exit-to-app</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Log out</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-app-bar app dark>
@@ -26,6 +36,10 @@
           <v-btn v-for="link of links" :key="link.title" :to="link.url" text>
             <v-icon left>{{link.icon}}</v-icon>
             {{link.title}}
+          </v-btn>
+
+          <v-btn v-if="isUserLoggedIn" @click="onLogout">
+            <v-icon left>mdi-exit-to-app</v-icon>Log out
           </v-btn>
         </v-toolbar-items>
       </v-app-bar>
@@ -58,6 +72,10 @@ export default {
   methods: {
     closeError() {
       this.$store.dispatch("clearError");
+    },
+    onLogout() {
+      this.$store.dispatch("logOut");
+      this.$route.push("/");
     }
   },
   computed: {
@@ -71,8 +89,12 @@ export default {
       if (this.isUserLoggedIn) {
         return [
           { title: "Orders", icon: "mdi-key", url: "/orders" },
-          { title: "New", icon: "mdi-new", url: "/new" },
-          { title: "list", icon: "mdi-list", url: "/list" }
+          { title: "New", icon: "mdi-new-box", url: "/new" },
+          {
+            title: "List",
+            icon: "mdi-format-list-bulleted-square",
+            url: "/list"
+          }
         ];
       }
 

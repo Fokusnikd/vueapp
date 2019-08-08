@@ -46,7 +46,7 @@
         <v-layout wrap>
           <v-flex xs12>
             <v-spacer></v-spacer>
-            <v-btn :disabled="!valid" @click="createAd">Create</v-btn>
+            <v-btn :loading="loading" :disabled="!valid|| loading" @click="createAd">Create</v-btn>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -64,6 +64,11 @@ export default {
       valid: false
     };
   },
+  computed: {
+    loading() {
+      return this.$store.getters.loading;
+    }
+  },
   methods: {
     createAd() {
       if (this.$refs.form.validate()) {
@@ -73,7 +78,12 @@ export default {
           promo: this.promo,
           src: "https://cdn.shazoo.ru/309070_dYM2kid3qv_19_12.jpg"
         };
-        this.$store.dispatch("createAd", ad);
+        this.$store
+          .dispatch("createAd", ad)
+          .then(() => {
+            this.$router.push("/list");
+          })
+          .catch(() => {});
       }
     }
   }
